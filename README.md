@@ -11,10 +11,24 @@ Apple\'s graphical Disk Utility tool will only show the system partition to prev
 
 I may document the disk layout when using APFS, however, APFS is very complicated compared to HFS+. It's not really relevant to this anyways.
 
-## How Macs boot macOS
-When a Mac is turned on to the Startup Manager (holding option at startup), it looks for these things:
+## How Macs boot
+When a Mac is turned on to the Startup Manager (holding option at startup), it looks for the following EFI:
 
-- HFS+ partitions with the file /System/Library/CoreServices/boot.efi
+- HFS+ partitions with the file `/System/Library/CoreServices/boot.efi`
+  - Will be named based on the hard drive's volume label
+  - Used by Apple to boot macOS 10.12 and earlier on SSDs by default and 10.13 and earlier on HDDs and Fusion Drives
+  - Used for macOS installation media
+  - Journaled HFS+ cannot be written to under Linux (unless such functionality is forced); non-journaled can be read and written to
+  - Both journaled and non-journaled HFS+ can be used to boot macOS
 - APFS partitions with the same file, although the exact method used is different (Macs with the latest firmware and Mojave support only)
-- HFS+ and FAT32 partitions with the file /EFI/BOOT/BOOTX64.EFI (or BOOTIA32.EFI on pre-2008 or 2009 machines)
-- Unfinished, please work on later -self
+  - Will be named based on the hard drive\'s volume label
+  - Used by Apple to boot macOS 10.13 and later on SSDs by default and 10.14 and later on HDDs and Fusion Drives
+  - While drivers exist for Linux, they do not support macOS partitions, only other partitions formatted with APFS that do not contain a macOS partition
+- HFS+ and FAT32 partitions with the file `/EFI/BOOT/BOOTX64.EFI` (or `BOOTIA32.EFI` on pre-2008 machines)
+  - Will be named "EFI Boot" on the boot menu by default, but can be customized through the [bless](https://ss64.com/osx/bless.html) utility in macOS
+- Legacy BIOS boot code written into the MBR (Master Boot Record) or PBR (Partition Boot Record) on pre-2015 Macs
+  - For example, if the GRUB bootloader is installed in both EFI and Legacy BIOS mode on a computer (through the use of a GPT partition table and a [BIOS boot partition](https://en.wikipedia.org/wiki/BIOS_boot_partition), an entry for both will appear
+  - Used by Apple to boot Windows until 2012
+  - Will always be named "Windows" reguardless of OS
+
+Sometimes other sources for boot.efi may be supported on the stock firmware, such as `/com.apple.recovery.boot/boot.efi` or `/boot.efi`, however I am unsure of the specifics when it comes to that.
