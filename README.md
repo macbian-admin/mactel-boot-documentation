@@ -20,7 +20,7 @@ When a Mac is turned on to the Startup Manager (holding option at startup), it l
   - Used for macOS installation media
   - Journaled HFS+ cannot be written to under Linux (unless such functionality is forced); non-journaled can be read and written to
   - Both journaled and non-journaled HFS+ can be used to boot macOS
-- APFS partitions with the same file, although the exact method used is different (Macs with the latest firmware and Mojave support only)
+- APFS partitions with the same file, although the exact method used is different (Macs with the latest firmware and High Sierra support only, starting with the Late 2009 MacBook and iMac)
   - Will be named based on the hard drive\'s volume label
   - Used by Apple to boot macOS 10.13 and later on SSDs by default and 10.14 and later on HDDs and Fusion Drives
   - While drivers exist for Linux, they do not support macOS partitions, only other partitions formatted with APFS that do not contain a macOS partition
